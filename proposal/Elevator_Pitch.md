@@ -63,9 +63,7 @@ Hopefully, our TCAV-based intervention will result in a difference and will help
 <div style="page-break-after: always;"></div>
 
 
-## Appendix: Ishan's ramblings about explanations.
-<!-- # See Pg. 11 of this [google-doc](https://docs.google.com/document/d/1SfSi8XtEg6eH-6wOA5HCTiza_VzrrTnednNvpH2aWU4/edit).-->
-
+## Appendix A: Ishan's ramblings about explanations.
 1. Building glass-box models has often been the go-to when criticizing complex black-box ML models. However, linear models may themselves not be interpretable. Cf. [The Mythos of Model Interpretability](https://dl.acm.org/doi/10.1145/3236386.3241340).
 2. According to Chenhao Tan, "humans are biased and may have incomplete knowledge” {[link](https://medium.com/@ChenhaoTan/human-centered-machine-learning-a-machine-in-the-loop-approach-ed024db34fe7)}. Thus, using interpretable glass-box models that are inherently explainable to humans should not be the goal of large-scale AI systems.
 3. Instead, we should develop the appropriate language {[4](https://www.youtube.com/watch?v=Ub45cGEcTB0)} for humans to communicate with AI. We need to find the appropriate “bridges” along which humans and AI systems can understand and help each other.
@@ -75,6 +73,6 @@ Hopefully, our TCAV-based intervention will result in a difference and will help
     3. TCAV instead delivers explanations in the way humans communicate to each other.”
 5. [Move 37](https://www.deepmind.com/research/highlighted-research/alphago/the-challenge-match) suggests that large-scale AI systems may not “think” in the same ways as humans do. Since the user does not understand the AI, it is expected to result in lower perceived trust. However, IMO, constraining AI to think in ways that can be easily explained to humans is not the correct way to address this. Instead, we want to develop an appropriate language for humans and AI systems to communicate with each other. This *language* will lead to XAI that helps humans understand the un-intuitive super-human actions/ recommendations that large-scale AI systems are capable of generating.
 
-### Rants: Less facts, more opinions.
+## Appendix B: Rants = Less facts, more opinions.
 1. The reason that tabular datasets are dominated by shallow models is that the underlying data distributions are not complex enough to challenge deep neural networks. Though, a few recent methods appear to be catching up with shallow ML methods on tabular data {[ref1](https://arxiv.org/abs/2205.14120), [ref2](https://arxiv.org/abs/2203.05556), [ref3](https://arxiv.org/abs/2112.02962)}. See Sebastian Raschka's post on [Deep Learning for Tabular Data](https://sebastianraschka.com/blog/2022/deep-learning-for-tabular-data.html) for an overview of the field.
 2. Elon Musk intended for Tesla to achieve L5 autonomy using vision as the only sensory input. This was idiotic. Thankfully, they have now moved towards using radars and ultrasonic sensors.
