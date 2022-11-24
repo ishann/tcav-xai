@@ -8,7 +8,7 @@
           "name": "ball",
           "children": [
             {
-              "name": "baseball",
+              "name": "golf ball",
               "children": []
             },
             {
@@ -16,7 +16,7 @@
               "children": []
             },
             {
-              "name": "ping-pong ball",
+              "name": "soccer ball",
               "children": []
             }
           ]
