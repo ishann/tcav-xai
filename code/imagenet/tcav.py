@@ -68,7 +68,12 @@ print("tcav husky")
 print(tcav_scores_husky)
 
 tcav_scores_valley = tcav.interpret(inputs=valley_images, experimental_sets=experiments, target=valley_idx, n_steps=5)
+print("tcav valley")
+print(tcav_scores_valley)
+
 tcav_scores_tabby = tcav.interpret(inputs=tabby_images, experimental_sets=experiments, target=tabby_idx, n_steps=5)
+print("tcav tabby")
+print(tcav_scores_tabby)
 
 # multi_concept = "canine"
 # # concepts = ["siberean_husky", "white_wolf"]

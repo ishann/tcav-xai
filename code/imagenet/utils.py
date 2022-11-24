@@ -71,21 +71,25 @@ def assemble_concept(name, id, concepts_path="data/tcav/image/concepts/"):
 
 # Creates a single multi-concept from a list of concepts.
 def assemble_multi_concept(name, concepts, id, num_images, concepts_path="/data/tcav/image/concepts/",
-                           recreate_if_exists=False):
+                           recreate_if_exists=False, folder_name=None):
     """
-    name (str): the general concept encapsulating all the concepts.
+    :param name (str): the general concept encapsulating all the concepts.
                      Eg. "canine"."
-    concepts (list): list of all the concepts to be assembled.
+    :param concepts (list): list of all the concepts to be assembled.
                      Eg. ["siberean_husky", "white_wolf"].
-    id: same as id from assemble_concept.
-    concepts_path: same as concepts_path from assemble_concept.
-    num_images: number of images that the overall multi_concept should contain (drawn equally from each sub-concept)
+    :param id: same as id from assemble_concept.
+    :param concepts_path: same as concepts_path from assemble_concept.
+    :param num_images: number of images that the overall multi_concept should contain (drawn equally from each sub-concept)
                 IGNORED IF exists and recreate_if_exists is False
-    recreate_if_exists: behavior when image folder already exists
+    :param recreate_if_exists: behavior when image folder already exists
+    :param folder_name: Use this value to set a custom image folder name (default is concept name)
     """
 
     # Create a new directory for multi-concept.
     multi_concept_path = os.path.join(concepts_path, name) + "/"
+    # If folder name specified, override default name
+    if folder_name:
+        multi_concept_path = os.path.join(concepts_path, folder_name) + "/"
     """
     import errno
     if not os.path.exists(multi_concept_path):
@@ -135,7 +139,7 @@ def assemble_multi_concept(name, concepts, id, num_images, concepts_path="/data/
 
 
 def assemble_multi_concept_from_hierarchy(concept_name: str, h: Hierarchy, num_images: int, concepts_path: str,
-                                          recreate_if_exists: bool):
+                                          recreate_if_exists: bool, folder_name=None):
     """
     :param concept_name: Name of the concept (must be in hierarchy.json)
     :param h: hierarchy object
@@ -148,7 +152,7 @@ def assemble_multi_concept_from_hierarchy(concept_name: str, h: Hierarchy, num_i
 
     leaf_nodes = h.get_leaf_nodes(of=concept_name)
     return assemble_multi_concept(name=concept_name, concepts=leaf_nodes, id=node['id'], num_images=num_images,
-                                  concepts_path=concepts_path, recreate_if_exists=recreate_if_exists)
+                                  concepts_path=concepts_path, recreate_if_exists=recreate_if_exists, folder_name=folder_name)
 
 
 def assemble_all_concepts_from_hierarchy(h: Hierarchy, num_images: int, concepts_path: str, recreate_if_exists: bool):
@@ -170,7 +174,13 @@ def assemble_all_concepts_from_hierarchy(h: Hierarchy, num_images: int, concepts
         node_data = h.find_node(node)
 
         if node in leaf_nodes:
-            concepts[node] = assemble_concept(name=node, id=node_data['id'], concepts_path=concepts_path)
+            # concepts[node] = assemble_concept(name=node, id=node_data['id'], concepts_path=concepts_path)
+            concepts[node] = assemble_multi_concept_from_hierarchy(concept_name=node,
+                                                                   h=h,
+                                                                   num_images=num_images,
+                                                                   concepts_path=concepts_path,
+                                                                   recreate_if_exists=recreate_if_exists,
+                                                                   folder_name=f"{node}_selected")
         else:
             concepts[node] = assemble_multi_concept_from_hierarchy(concept_name=node, h=h, num_images=num_images,
                                                                    concepts_path=concepts_path,
