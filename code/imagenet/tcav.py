@@ -1,15 +1,21 @@
 # import ipdb
 
 # ..........torch imports............
+from pathlib import Path
+
+import numpy as np
+import torch
 import torchvision
 # .... Captum imports..................
 from captum.attr import LayerIntegratedGradients
 from captum.concept import TCAV
+from captum.concept._utils.common import concepts_to_str
 
 # .... Local imports..................
+from joblib import load, dump
 from generate_data.hierarchy import Hierarchy
 from utils import assemble_all_concepts_from_hierarchy, assemble_random_concepts, generate_experiments
-from utils import load_image_tensors
+from utils import load_image_tensors, transform, plot_tcav_scores, assemble_scores, get_pval, show_boxplots
 
 # Load Hierarchy
 HIERARCHY_JSON_PATH = 'generate_data/hierarchy.json'
@@ -45,8 +51,11 @@ model = model.eval()
 layers = ['inception5b', 'fc']
 
 # Generate experiment sets
-experiments = generate_experiments(concepts_dict=concepts, random_concepts_dict=random_concepts)
-print(experiments)
+# experiments = generate_experiments(concepts_dict=concepts, random_concepts_dict=random_concepts)
+# print(experiments)
+
+experiment_w_random = [[concepts['canine'], random_concepts[0]], [concepts['canine'], random_concepts[1]]]
+experiment_w_comparison = [[concepts['canine'], concepts['tabby'], concepts['puzzle'], concepts['valley']]]
 
 # Create TCAV for each experiment
 tcav = TCAV(model=model, layers=layers,
@@ -54,26 +63,67 @@ tcav = TCAV(model=model, layers=layers,
 
 # Load sample images
 husky_images = load_image_tensors('Siberian husky', root_path=concepts_path, transform=False, count=100)
+husky_tensors = torch.stack([transform(img) for img in husky_images])
 husky_idx = h.imagenet_label2idx['Siberian husky']
 
-valley_images = load_image_tensors('valley', root_path=concepts_path, transform=False, count=100)
-valley_idx = h.imagenet_label2idx['valley']
+# valley_images = load_image_tensors('valley', root_path=concepts_path, transform=False, count=100)
+# valley_idx = h.imagenet_label2idx['valley']
+#
+# tabby_images = load_image_tensors('tabby', root_path=concepts_path, transform=False, count=100)
+# tabby_idx = h.imagenet_label2idx['tabby']
 
-tabby_images = load_image_tensors('tabby', root_path=concepts_path, transform=False, count=100)
-tabby_idx = h.imagenet_label2idx['tabby']
+print("Starting...")
+if not Path("husky_tcav_w_random.pkl").is_file():
+    husky_tcav_w_random = tcav.interpret(inputs=husky_tensors, experimental_sets=experiment_w_random, target=husky_idx, n_steps=5)
+    # dump(husky_tcav_w_random, "husky_tcav_w_random.pkl")
+else:
+    pass
+    # husky_tcav_w_random = load("husky_tcav_w_random.pkl")
+
+print("Starting...")
+if not Path("husky_tcav_w_comparison.pkl").is_file():
+    husky_tcav_w_comparison = tcav.interpret(inputs=husky_tensors, experimental_sets=experiment_w_comparison, target=husky_idx, n_steps=5)
+    # dump(husky_tcav_w_comparison, "husky_tcav_w_comparison.pkl")
+else:
+    pass
+    # husky_tcav_w_comparison = load("husky_tcav_w_comparison.pkl")
+print("tcav husky comparison")
+print(husky_tcav_w_comparison)
+
+
+plot_tcav_scores(layers=layers, experimental_sets=experiment_w_random, tcav_scores=husky_tcav_w_random, outfile="husky_vs_rand.png")
+plot_tcav_scores(layers=layers, experimental_sets=experiment_w_random, tcav_scores=husky_tcav_w_comparison, outfile="husky_vs_others.png")
+
+
+# p-val
+experimental_sets = [[concepts['canine'], random_concepts[0]], [concepts['canine'], random_concepts[1]], [concepts['canine'], random_concepts[2]],
+                     [random_concepts[0], random_concepts[1]], [random_concepts[0], random_concepts[2]], [random_concepts[0], random_concepts[3]]]
+
+print("starting pval")
+if not Path("scores.pkl").is_file():
+    scores = tcav.interpret(inputs=husky_tensors, experimental_sets=experimental_sets, target=husky_idx, n_steps=5)
+    dump(scores, "scores.pkl")
+else:
+    scores = load("scores.pkl")
+print("scores")
+print(scores)
+
+print("boxplots")
+show_boxplots(scores=scores, experimental_sets=experimental_sets, n=4, layer='inception5b', outfile="boxplot_inception5b.png")
+show_boxplots(scores=scores, experimental_sets=experimental_sets, n=4, layer='fc', outfile="boxplot_fc.png")
 
 # Run tests to get TCAV scores
-tcav_scores_husky = tcav.interpret(inputs=husky_images, experimental_sets=experiments, target=husky_idx, n_steps=5)
-print("tcav husky")
-print(tcav_scores_husky)
-
-tcav_scores_valley = tcav.interpret(inputs=valley_images, experimental_sets=experiments, target=valley_idx, n_steps=5)
-print("tcav valley")
-print(tcav_scores_valley)
-
-tcav_scores_tabby = tcav.interpret(inputs=tabby_images, experimental_sets=experiments, target=tabby_idx, n_steps=5)
-print("tcav tabby")
-print(tcav_scores_tabby)
+# tcav_scores_husky = tcav.interpret(inputs=husky_images, experimental_sets=experiments, target=husky_idx, n_steps=5)
+# print("tcav husky")
+# print(tcav_scores_husky)
+#
+# tcav_scores_valley = tcav.interpret(inputs=valley_images, experimental_sets=experiments, target=valley_idx, n_steps=5)
+# print("tcav valley")
+# print(tcav_scores_valley)
+#
+# tcav_scores_tabby = tcav.interpret(inputs=tabby_images, experimental_sets=experiments, target=tabby_idx, n_steps=5)
+# print("tcav tabby")
+# print(tcav_scores_tabby)
 
 # multi_concept = "canine"
 # # concepts = ["siberean_husky", "white_wolf"]

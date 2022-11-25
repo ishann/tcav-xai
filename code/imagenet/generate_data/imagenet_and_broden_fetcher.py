@@ -53,6 +53,7 @@ import random
 import os
 import socket
 from joblib import Parallel, delayed
+import cv2
 
 kImagenetBaseUrl = "http://imagenet.stanford.edu/api/imagenet.synset.geturls?wnid="
 kBrodenTexturesPath = "broden1_224/images/dtd/"
@@ -436,9 +437,25 @@ def download_imagenet_classes(class_names, save_path='data', wnet_labels_path='w
 
 
 if __name__ == '__main__':
-    # download_imagenet_classes(['tabby'])
 
-    for path in glob.glob("data/random_*"):
-        for count, image in enumerate(glob.glob(f"{path}/*.jpg")):
-            if count >= 1000:
+    allowed_types = {'jpg', 'jpeg'}
+
+    for path in tqdm(glob.glob("../../data/*")):
+        for count, image in enumerate(glob.glob(f"{path}/*")):
+            try:
+                if not Path(image).is_dir() and "inception5h" not in image and "mobilenet_v2" not in image:
+                    img = cv2.imread(image)
+                    _ = img.shape
+                    img = Image.open(image)
+                    img.verify()
+                    img = Image.open(image)
+                    _ = img.convert("RGB")
+                    assert img.format.lower() in allowed_types, f"Image format: {img.format.lower()} not allowed"
+                    assert image.lower().endswith(".jpg") or image.lower().endswith(".jpeg"), f"Image {image} has wrong ending"
+            except Exception as e:
+                print(image, "\t\t", str(e))
                 os.remove(image)
+
+            # if not (image.lower().endswith(".jpg") or image.lower().endswith(".jpeg")) and not Path(image).is_dir() and "inception5h" not in image and "mobilenet_v2" not in image:
+            #     print(image)
+            #     os.remove(image)

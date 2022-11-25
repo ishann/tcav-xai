@@ -8,7 +8,10 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 from captum.concept import Concept
+from captum.concept._utils.common import concepts_to_str
 from captum.concept._utils.data_iterator import dataset_to_dataloader, CustomIterableDataset
+from matplotlib import pyplot as plt
+from scipy.stats import ttest_ind
 from torchvision import transforms
 from tqdm import tqdm
 
@@ -204,3 +207,95 @@ def generate_experiments(concepts_dict: dict, random_concepts_dict: dict):
     for i, concept in enumerate(concepts_dict):
         experiments.append([concepts_dict[concept], random_concepts_dict[i]])
     return experiments
+
+
+
+
+
+def format_float(f):
+    return float('{:.3f}'.format(f) if abs(f) >= 0.0005 else '{:.3e}'.format(f))
+
+def plot_tcav_scores(layers, experimental_sets, tcav_scores, outfile='fig.png'):
+    fig, ax = plt.subplots(1, len(experimental_sets), figsize=(25, 7))
+
+    barWidth = 1 / (len(experimental_sets[0]) + 1)
+
+    for idx_es, concepts in enumerate(experimental_sets):
+
+        concepts = experimental_sets[idx_es]
+        concepts_key = concepts_to_str(concepts)
+
+        pos = [np.arange(len(layers))]
+        for i in range(1, len(concepts)):
+            pos.append([(x + barWidth) for x in pos[i - 1]])
+        _ax = (ax[idx_es] if len(experimental_sets) > 1 else ax)
+        for i in range(len(concepts)):
+            val = [format_float(scores['sign_count'][i]) for layer, scores in tcav_scores[concepts_key].items()]
+            _ax.bar(pos[i], val, width=barWidth, edgecolor='white', label=concepts[i].name)
+
+        # Add xticks on the middle of the group bars
+        _ax.set_xlabel('Set {}'.format(str(idx_es)), fontweight='bold', fontsize=16)
+        _ax.set_xticks([r + 0.3 * barWidth for r in range(len(layers))])
+        _ax.set_xticklabels(layers, fontsize=16)
+
+        # Create legend & Show graphic
+        _ax.legend(fontsize=16)
+
+    plt.savefig(outfile)
+    plt.show()
+
+def assemble_scores(scores, experimental_sets, idx, score_layer, score_type):
+    score_list = []
+    for concepts in experimental_sets:
+        score_list.append(scores["-".join([str(c.id) for c in concepts])][score_layer][score_type][idx])
+
+    return score_list
+
+def get_pval(scores, experimental_sets, score_layer, score_type, alpha=0.05, print_ret=False):
+    P1 = assemble_scores(scores, experimental_sets, 0, score_layer, score_type)
+    P2 = assemble_scores(scores, experimental_sets, 1, score_layer, score_type)
+
+    if print_ret:
+        print('P1[mean, std]: ', format_float(np.mean(P1)), format_float(np.std(P1)))
+        print('P2[mean, std]: ', format_float(np.mean(P2)), format_float(np.std(P2)))
+
+    _, pval = ttest_ind(P1, P2)
+
+    if print_ret:
+        print("p-values:", format_float(pval))
+
+    if pval < alpha:  # alpha value is 0.05 or 5%
+        relation = "Disjoint"
+        if print_ret:
+            print("Disjoint")
+    else:
+        relation = "Overlap"
+        if print_ret:
+            print("Overlap")
+
+    return P1, P2, format_float(pval), relation
+
+n = 4
+
+
+def show_boxplots(scores, experimental_sets, n, layer, metric='sign_count', outfile='fig2.png'):
+    def format_label_text(experimental_sets):
+        concept_id_list = [exp.name if i == 0 else \
+                               exp.name.split('_')[0] for i, exp in enumerate(experimental_sets[0])]
+        return concept_id_list
+
+    n_plots = 2
+
+    fig, ax = plt.subplots(1, n_plots, figsize=(25, 7 * 1))
+    fs = 18
+    for i in range(n_plots):
+        esl = experimental_sets[i * n: (i + 1) * n]
+        P1, P2, pval, relation = get_pval(scores, esl, layer, metric)
+
+        ax[i].set_ylim([0, 1])
+        ax[i].set_title(layer + "-" + metric + " (pval=" + str(pval) + " - " + relation + ")", fontsize=fs)
+        ax[i].boxplot([P1, P2], showfliers=True)
+
+        ax[i].set_xticklabels(format_label_text(esl), fontsize=fs)
+    plt.savefig(outfile)
+    plt.show()
