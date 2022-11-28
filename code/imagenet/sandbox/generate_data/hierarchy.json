@@ -1,0 +1,114 @@
+{
+  "name": "entity",
+  "children": [
+    {
+      "name": "equipment",
+      "children": [
+        {
+          "name": "ball",
+          "children": [
+            {
+              "name": "golf ball",
+              "children": []
+            },
+            {
+              "name": "basketball",
+              "children": []
+            },
+            {
+              "name": "soccer ball",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "puzzle",
+          "children": [
+            {
+              "name": "crossword puzzle",
+              "children": []
+            },
+            {
+              "name": "jigsaw puzzle",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "electronics",
+          "children": [
+            {
+              "name": "oscilloscope",
+              "children": []
+            },
+            {
+              "name": "computer keyboard",
+              "children": []
+            },
+            {
+              "name": "pay-phone",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "geological formation",
+      "children": [
+        {
+          "name": "valley",
+          "children": []
+        },
+        {
+          "name": "volcano",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "organism",
+      "children": [
+        {
+          "name": "canine",
+          "children": [
+            {
+              "name": "white wolf",
+              "children": []
+            },
+            {
+              "name": "dog",
+              "children": [
+                {
+                  "name": "golden retriever",
+                  "children": []
+                },
+                {
+                  "name": "dalmatian",
+                  "children": []
+                },
+                {
+                  "name": "Siberian husky",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "feline",
+          "children": [
+            {
+              "name": "tabby",
+              "children": []
+            },
+            {
+              "name": "tiger",
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

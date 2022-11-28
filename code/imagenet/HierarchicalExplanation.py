@@ -1,3 +1,5 @@
+# import ipdb
+
 # ..........torch imports............
 from pathlib import Path
 
@@ -25,13 +27,15 @@ h = Hierarchy(json_path=HIERARCHY_JSON_PATH, wordnet_labels_path=HIERARCHY_WORDN
               imagenet_idx_labels_path=IMAGENET_IDX_TO_LABELS)
 
 class HierarchicalExplanation:
-    def __init__(self, h: Hierarchy, model: nn.Module, layer: str, n_steps=5, load_save=False):
+    def __init__(self, h: Hierarchy, hpath: list, model: nn.Module, layer: str, n_steps=5, load_save=False):
         self.h = h
+        self.hpath = hpath
         self.model = model
         self.layer = layer
         self.n_steps = n_steps
         self.load_save = load_save
         self.tcav = TCAV(model=model, layers=[layer], layer_attr_method=LayerIntegratedGradients(self.model, None, multiply_by_inputs=False))
+
 
     def explain(self, input_tensors, input_idx, input_class_name, get_concepts_from_name):
         assert input_class_name in h.get_leaf_nodes(), "input_class_name must be a leaf class in the hierarchy"
@@ -51,6 +55,10 @@ class HierarchicalExplanation:
             dump(dict(scores), 'scores.pkl')
         else:
             scores = load('scores.pkl')
+
+        #ipdb.set_trace()
+        #get_pval(scores, experimental_sets, hpath, score_layer, score_type)
+        per_level_pvals = get_pval(scores, experimental_sets, hpath, score_layer=layer, score_type="magnitude")
 
         for level, concepts_set in zip(levels, experimental_sets):
             score_list = scores["-".join([str(c.id) for c in concepts_set])][self.layer]['magnitude']
