@@ -13,6 +13,8 @@ from captum.concept._utils.common import concepts_to_str
 
 # .... Local imports..................
 from joblib import load, dump
+
+from HierarchicalExplanation import HierarchicalExplanation
 from generate_data.hierarchy import Hierarchy
 from utils import assemble_all_concepts_from_hierarchy, assemble_random_concepts, generate_experiments
 from utils import load_image_tensors, transform, plot_tcav_scores, assemble_scores, get_pval, show_boxplots
@@ -48,7 +50,8 @@ model = torchvision.models.googlenet(pretrained=True)
 model = model.eval()
 # model.inception5b is the last inception module.
 # model.fc is the fully-connected layer outputting a 1000-way embedding.
-layers = ['inception5b', 'fc']
+# layers = ['inception5b', 'fc']
+layers=['fc']
 
 # Generate experiment sets
 # experiments = generate_experiments(concepts_dict=concepts, random_concepts_dict=random_concepts)
@@ -58,8 +61,7 @@ experiment_w_random = [[concepts['canine'], random_concepts[0]], [concepts['cani
 experiment_w_comparison = [[concepts['canine'], concepts['tabby'], concepts['puzzle'], concepts['valley']]]
 
 # Create TCAV for each experiment
-tcav = TCAV(model=model, layers=layers,
-            layer_attr_method=LayerIntegratedGradients(model, None, multiply_by_inputs=False))
+tcav = TCAV(model=model, layers=layers, layer_attr_method=LayerIntegratedGradients(model, None, multiply_by_inputs=False))
 
 # Load sample images
 husky_images = load_image_tensors('Siberian husky', root_path=concepts_path, transform=False, count=100)
@@ -72,45 +74,56 @@ husky_idx = h.imagenet_label2idx['Siberian husky']
 # tabby_images = load_image_tensors('tabby', root_path=concepts_path, transform=False, count=100)
 # tabby_idx = h.imagenet_label2idx['tabby']
 
-print("Starting...")
-if not Path("husky_tcav_w_random.pkl").is_file():
-    husky_tcav_w_random = tcav.interpret(inputs=husky_tensors, experimental_sets=experiment_w_random, target=husky_idx, n_steps=5)
-    # dump(husky_tcav_w_random, "husky_tcav_w_random.pkl")
-else:
-    pass
-    # husky_tcav_w_random = load("husky_tcav_w_random.pkl")
+# print("Starting...")
+# if not Path("husky_tcav_w_random.pkl").is_file():
+#     husky_tcav_w_random = tcav.interpret(inputs=husky_tensors, experimental_sets=experiment_w_random, target=husky_idx, n_steps=5)
+#     print(husky_tcav_w_random)
+#     # dump(husky_tcav_w_random, "husky_tcav_w_random.pkl")
+# else:
+#     pass
+#     # husky_tcav_w_random = load("husky_tcav_w_random.pkl")
 
-print("Starting...")
-if not Path("husky_tcav_w_comparison.pkl").is_file():
-    husky_tcav_w_comparison = tcav.interpret(inputs=husky_tensors, experimental_sets=experiment_w_comparison, target=husky_idx, n_steps=5)
-    # dump(husky_tcav_w_comparison, "husky_tcav_w_comparison.pkl")
-else:
-    pass
-    # husky_tcav_w_comparison = load("husky_tcav_w_comparison.pkl")
-print("tcav husky comparison")
-print(husky_tcav_w_comparison)
+# plot_tcav_scores(layers=layers, experimental_sets=experiment_w_random, tcav_scores=husky_tcav_w_random, outfile="husky_vs_rand.png")
+# plot_tcav_scores(layers=layers, experimental_sets=experiment_w_random, tcav_scores=husky_tcav_w_comparison, outfile="husky_vs_others.png"
+
+# # p-val
+# experimental_sets = [[concepts['canine'], random_concepts[0]], [concepts['canine'], random_concepts[1]],
+#                      [random_concepts[0], random_concepts[1]], [random_concepts[0], random_concepts[2]]]
+#
+# print("starting pval")
+# if not Path("scores.pkl").is_file():
+#     scores = tcav.interpret(inputs=husky_tensors, experimental_sets=experimental_sets, target=husky_idx, n_steps=5)
+#     # dump(scores, "scores.pkl")
+# else:
+#     pass
+#     # scores = load("scores.pkl")
+# print("scores")
+# print(scores)
+#
+# print("boxplots")
+# # show_boxplots(scores=scores, experimental_sets=experimental_sets, n=4, layer='inception5b', outfile="boxplot_inception5b.png")
+# show_boxplots(scores=scores, experimental_sets=experimental_sets, n=2, layer='fc', outfile="boxplot_fc.png")
+
+he = HierarchicalExplanation(h=h, model=model, layer='fc', n_steps=5, load_save=True)
+explanations = he.explain(input_tensors=husky_tensors, input_class_name="Siberian husky", input_idx=husky_idx, get_concepts_from_name=lambda x: concepts[x] if x in concepts else random_concepts[int(x.replace("random_", ""))])
+print(explanations)
+long_form = he.long_form_explanations(explanations, "Siberian husky")
+print(long_form)
 
 
-plot_tcav_scores(layers=layers, experimental_sets=experiment_w_random, tcav_scores=husky_tcav_w_random, outfile="husky_vs_rand.png")
-plot_tcav_scores(layers=layers, experimental_sets=experiment_w_random, tcav_scores=husky_tcav_w_comparison, outfile="husky_vs_others.png")
 
 
-# p-val
-experimental_sets = [[concepts['canine'], random_concepts[0]], [concepts['canine'], random_concepts[1]], [concepts['canine'], random_concepts[2]],
-                     [random_concepts[0], random_concepts[1]], [random_concepts[0], random_concepts[2]], [random_concepts[0], random_concepts[3]]]
 
-print("starting pval")
-if not Path("scores.pkl").is_file():
-    scores = tcav.interpret(inputs=husky_tensors, experimental_sets=experimental_sets, target=husky_idx, n_steps=5)
-    dump(scores, "scores.pkl")
-else:
-    scores = load("scores.pkl")
-print("scores")
-print(scores)
 
-print("boxplots")
-show_boxplots(scores=scores, experimental_sets=experimental_sets, n=4, layer='inception5b', outfile="boxplot_inception5b.png")
-show_boxplots(scores=scores, experimental_sets=experimental_sets, n=4, layer='fc', outfile="boxplot_fc.png")
+
+
+
+
+
+
+
+
+
 
 # Run tests to get TCAV scores
 # tcav_scores_husky = tcav.interpret(inputs=husky_images, experimental_sets=experiments, target=husky_idx, n_steps=5)

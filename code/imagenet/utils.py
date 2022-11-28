@@ -255,6 +255,9 @@ def get_pval(scores, experimental_sets, score_layer, score_type, alpha=0.05, pri
     P1 = assemble_scores(scores, experimental_sets, 0, score_layer, score_type)
     P2 = assemble_scores(scores, experimental_sets, 1, score_layer, score_type)
 
+    print("P1", P1)
+    print("P2", P2)
+
     if print_ret:
         print('P1[mean, std]: ', format_float(np.mean(P1)), format_float(np.std(P1)))
         print('P2[mean, std]: ', format_float(np.mean(P2)), format_float(np.std(P2)))
@@ -275,13 +278,11 @@ def get_pval(scores, experimental_sets, score_layer, score_type, alpha=0.05, pri
 
     return P1, P2, format_float(pval), relation
 
-n = 4
-
 
 def show_boxplots(scores, experimental_sets, n, layer, metric='sign_count', outfile='fig2.png'):
     def format_label_text(experimental_sets):
-        concept_id_list = [exp.name if i == 0 else \
-                               exp.name.split('_')[0] for i, exp in enumerate(experimental_sets[0])]
+        # concept_id_list = [exp.name if i == 0 else exp.name.split('_')[0] for i, exp in enumerate(experimental_sets[0])]
+        concept_id_list = [exp.name if i == 0 else exp.name for i, exp in enumerate(experimental_sets[0])]
         return concept_id_list
 
     n_plots = 2
@@ -291,6 +292,7 @@ def show_boxplots(scores, experimental_sets, n, layer, metric='sign_count', outf
     for i in range(n_plots):
         esl = experimental_sets[i * n: (i + 1) * n]
         P1, P2, pval, relation = get_pval(scores, esl, layer, metric)
+        print('pval', pval)
 
         ax[i].set_ylim([0, 1])
         ax[i].set_title(layer + "-" + metric + " (pval=" + str(pval) + " - " + relation + ")", fontsize=fs)

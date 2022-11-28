@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 
 
 def load_wordnet_labels(wordnet_path='wordnet_labels.txt'):
@@ -126,7 +127,38 @@ class Hierarchy:
                     frontier.append(c)
         return None
 
+    def get_path(self, name):
+        """
+        Return list of nodes on path to destination
+        :param name: leaf node name
+        :return: list
+        """
+
+        frontier = [self.json]
+        path_frontier = [[self.json['name']]]
+        while len(frontier) > 0:
+            node = frontier.pop(0)
+            path = path_frontier.pop(0)
+            path.append(node['name'])
+
+            if node['name'] == name:
+                return path[1:]
+            else:
+                for c in node['children']:
+                    frontier.append(c)
+                    path_frontier.append(deepcopy(path))
+                path.pop(-1)
+
+    def get_children_names(self, name):
+        """
+        Get list of names of children of a node specified by name
+        """
+        node = self.find_node(name)
+        return [n['name'] for n in node['children']]
 
 if __name__ == '__main__':
     h = Hierarchy()
     print(h.get_leaf_nodes())
+    print(h.get_path("dog"))
+
+    print(h.get_children_names("dog"))
