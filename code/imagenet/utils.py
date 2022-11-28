@@ -22,7 +22,7 @@ from generate_data.hierarchy import Hierarchy
 # .... Captum imports..................
 
 
-#import ipdb
+# import ipdb
 
 
 ### Defining image related transformations and functions
@@ -209,11 +209,9 @@ def generate_experiments(concepts_dict: dict, random_concepts_dict: dict):
     return experiments
 
 
-
-
-
 def format_float(f):
     return float('{:.3f}'.format(f) if abs(f) >= 0.0005 else '{:.3e}'.format(f))
+
 
 def plot_tcav_scores(layers, experimental_sets, tcav_scores, outfile='fig.png'):
     fig, ax = plt.subplots(1, len(experimental_sets), figsize=(25, 7))
@@ -245,7 +243,7 @@ def plot_tcav_scores(layers, experimental_sets, tcav_scores, outfile='fig.png'):
     plt.show()
 
 
-#def assemble_scores(scores, experimental_sets, idx, score_layer, score_type):
+# def assemble_scores(scores, experimental_sets, idx, score_layer, score_type):
 #    score_list = []
 #    for concepts in experimental_sets:
 #        score_list.append(scores["-".join([str(c.id) for c in concepts])][score_layer][score_type][idx])
@@ -253,7 +251,6 @@ def plot_tcav_scores(layers, experimental_sets, tcav_scores, outfile='fig.png'):
 #    return score_list
 
 def assemble_scores(scores, experimental_sets, hpath, score_layer, score_type):
-
     """
     Will return P, N by putting positives in P and negatives in N.
     Per experimental_set, there will be
@@ -264,8 +261,8 @@ def assemble_scores(scores, experimental_sets, hpath, score_layer, score_type):
 
     for concepts in experimental_sets:
 
-        #score_list.append(scores["-".join([str(c.id) for c in concepts])][score_layer][score_type][idx])
-        #idxs = "-".join([str(c.id) for c in concepts])
+        # score_list.append(scores["-".join([str(c.id) for c in concepts])][score_layer][score_type][idx])
+        # idxs = "-".join([str(c.id) for c in concepts])
         c_idxs = [c.id for c in concepts]
         c_names = [c.name for c in concepts]
         c_scores = [d.item() for d in scores["-".join([str(c.id) for c in concepts])][score_layer][score_type]]
@@ -276,7 +273,6 @@ def assemble_scores(scores, experimental_sets, hpath, score_layer, score_type):
                 c_P.append(c_scores[idx])
             else:
                 c_N.append(c_scores[idx])
-
 
         # Hacky way to make sure equal positives and negatives
         c_P = [c_P[0] for _ in range(len(c_N))]
@@ -289,40 +285,14 @@ def assemble_scores(scores, experimental_sets, hpath, score_layer, score_type):
     return P, N, idxs, names
 
 
-
 def get_pval(scores, experimental_sets, hpath, score_layer, score_type):
-#def get_pval(scores, experimental_sets, hpath, score_layer, score_type, alpha=0.05, print_ret=False):
-    #P1 = assemble_scores(scores, experimental_sets, 0, score_layer, score_type)
-    #P2 = assemble_scores(scores, experimental_sets, 1, score_layer, score_type)
-
-    #print("P: ", P)
-    #print("N: ", N)
-
-    #if print_ret:
-    #    print('P[mean, std]: ', format_float(np.mean(P)), format_float(np.std(P)))
-    #    print('N[mean, std]: ', format_float(np.mean(N)), format_float(np.std(N)))
-
-    #_, pval = ttest_ind(P, N)
-
-    #if print_ret:
-    #    print("p-values:", format_float(pval))
-
-    #if pval < alpha:  # alpha value is 0.05 or 5%
-    #    relation = "Disjoint"
-    #    if print_ret:
-    #        print("Disjoint")
-    #else:
-    #    relation = "Overlap"
-    #    if print_ret:
-    #        print("Overlap")
-
     P, N, _, names = assemble_scores(scores, experimental_sets, hpath, score_layer, score_type)
 
     per_level_pvals = {}
 
     for set_p, set_n, set_names in zip(P, N, names):
         level = set(set_names).intersection(hpath).pop()
-        print(level, set_p, set_n)
+        # print(level, set_p, set_n)
         per_level_pvals[level] = ttest_ind(set_p, set_n)[1]
 
     return per_level_pvals

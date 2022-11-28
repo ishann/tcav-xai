@@ -27,9 +27,8 @@ h = Hierarchy(json_path=HIERARCHY_JSON_PATH, wordnet_labels_path=HIERARCHY_WORDN
               imagenet_idx_labels_path=IMAGENET_IDX_TO_LABELS)
 
 class HierarchicalExplanation:
-    def __init__(self, h: Hierarchy, hpath: list, model: nn.Module, layer: str, n_steps=5, load_save=False):
+    def __init__(self, h: Hierarchy, model: nn.Module, layer: str, n_steps=5, load_save=False):
         self.h = h
-        self.hpath = hpath
         self.model = model
         self.layer = layer
         self.n_steps = n_steps
@@ -40,6 +39,7 @@ class HierarchicalExplanation:
     def explain(self, input_tensors, input_idx, input_class_name, get_concepts_from_name):
         assert input_class_name in h.get_leaf_nodes(), "input_class_name must be a leaf class in the hierarchy"
         levels = h.get_path(input_class_name)[:-1]
+        child_path = h.get_path(input_class_name)[1:]
         explanations = []  # [{'level_name': 'name', 'children': [('name', 'value')]}]
 
         experimental_sets = []
@@ -56,15 +56,17 @@ class HierarchicalExplanation:
         else:
             scores = load('scores.pkl')
 
-        #ipdb.set_trace()
-        #get_pval(scores, experimental_sets, hpath, score_layer, score_type)
-        per_level_pvals = get_pval(scores, experimental_sets, hpath, score_layer=layer, score_type="magnitude")
+        per_level_pvals = get_pval(scores, experimental_sets, child_path, score_layer=self.layer, score_type="magnitude")
 
         for level, concepts_set in zip(levels, experimental_sets):
             score_list = scores["-".join([str(c.id) for c in concepts_set])][self.layer]['magnitude']
             level_explain = dict()
             level_explain['level_name'] = level
             level_explain['children'] = [(concept.name, score) for score, concept in zip(score_list, concepts_set)]
+
+            if level in per_level_pvals:
+                level_explain['pval'] = per_level_pvals[level]
+
             explanations.append(level_explain)
 
         return explanations
@@ -73,8 +75,10 @@ class HierarchicalExplanation:
         outStr = []
 
         prevClass = pred_class_name
+
+        outStr.append(f"The input is predicted to be a(n) {prevClass} (p-value: {explanations[-1]['pval']:.4f}).\n")
         for explanation in explanations[::-1]:
-            outStr.append(f"It is predicted to be a(n) {prevClass} because it is a {explanation['level_name']}.\n"
+            outStr.append(f"It is predicted to be a(n) {prevClass} because it is a {explanation['level_name']}" + ("" if 'pval' not in explanation else f" (p-value: {explanation['pval']:.4f})") + ".\n"
                           f"It is a(n) {prevClass} because out of all {explanation['level_name']}s, {prevClass} has the highest TCAV scores among possible sub-classes: \n")
             outStr.append("Class Name \t\t Score\n")
             for concept_name, concept_score in explanation['children']:

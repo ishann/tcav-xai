@@ -29,8 +29,8 @@ h = Hierarchy(json_path=HIERARCHY_JSON_PATH, wordnet_labels_path=HIERARCHY_WORDN
 # Let's assemble concepts into Concept instances using Concept class and concept images stored in `concepts_path`.
 ###################################################
 
-concepts_path = "/home/devvrit/ishann/data/captum/tcav/concepts"
-#concepts_path = "../data"
+# concepts_path = "/home/devvrit/ishann/data/captum/tcav/concepts"
+concepts_path = "../data"
 
 # Assemble non-random concepts
 concepts = assemble_all_concepts_from_hierarchy(h=h, num_images=100, concepts_path=concepts_path,
@@ -103,10 +103,7 @@ husky_idx = h.imagenet_label2idx['Siberian husky']
 # show_boxplots(scores=scores, experimental_sets=experimental_sets, n=2, layer='fc', outfile="boxplot_fc.png")
 
 
-# Added by ishann to make get_pval work.
-hpath = ["organism", "canine", "dog", "Siberian husky"]
-
-he = HierarchicalExplanation(h=h, hpath=hpath, model=model, layer='fc', n_steps=5, load_save=True)
+he = HierarchicalExplanation(h=h, model=model, layer='fc', n_steps=5, load_save=True)
 explanations = he.explain(input_tensors=husky_tensors, input_class_name="Siberian husky", input_idx=husky_idx, get_concepts_from_name=lambda x: concepts[x] if x in concepts else random_concepts[int(x.replace("random_", ""))])
 print(explanations)
 long_form = he.long_form_explanations(explanations, "Siberian husky")
