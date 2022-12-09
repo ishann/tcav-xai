@@ -20,7 +20,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 ##  Load model.
 ################################################################################
 INP_SIZE, HID_SIZE, CLASSES = 31, 8, 2
-model_weights = "./data/compas_model.ckpt"
+model_weights = "./data/compas_unaware_model.ckpt"
 model = NeuralNet(INP_SIZE, HID_SIZE, CLASSES).to("cpu")
 model.load_state_dict(torch.load(model_weights))
 model.eval()
@@ -30,7 +30,7 @@ model.eval()
 ##  Assemble data tensors (similar to Siberean Husky).
 ################################################################################
 print("Assembling data tensors...")
-data_path = "./data/val_data.pkl"
+data_path = "./data/val_unaware_data.pkl"
 (zeros_tensor,
  ones_tensor,
  zeros_idx,

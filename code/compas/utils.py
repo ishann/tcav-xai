@@ -122,112 +122,17 @@ def compute_tcavs(model, layers, zeros_tensor, ones_tensor,
     results_demos_ones = model_tcav_ones.interpret(inputs=ones_tensor,
                                                 experimental_sets=expt_set_demos,
                                                 target=ones_idx, n_steps=5)
-    print("tcav.interpret takes: {:.2f}s.".format(time.time()-start_tcav_interpret))
+
+    print("tcav.interpret takes: {:.2f}s.".format(time.time()-
+                                                  start_tcav_interpret))
+
+    results_feats_zeros = dict(results_feats_zeros)
+    results_demos_zeros = dict(results_demos_zeros)
+    results_feats_ones = dict(results_feats_ones)
+    results_demos_ones = dict(results_demos_ones)
 
     return (results_feats_zeros, results_demos_zeros,
             results_feats_ones, results_demos_ones)
 
-
-def assemble_scores(scores, experimental_sets, hpath, score_layer, score_type):
-    """
-    TODO: This is my get_pval helper functon from ./code/imagenet.
-          Simplify for COMPAS.
-
-    Will return P, N by putting positives in P and negatives in N.
-    Per experimental_set, there will be
-    To make ttest work, P will have repeated entries since each level has multiple -ve, but only one +ve.
-    """
-
-    P, N, idxs, names = [], [], [], []
-
-    for concepts in experimental_sets:
-
-        c_idxs = [c.id for c in concepts]
-        c_names = [c.name for c in concepts]
-        c_scores = [d.item() for d in scores["-".join([str(c.id) for c in concepts])][score_layer][score_type]]
-
-        c_P, c_N = [], []
-        for idx, c_name in enumerate(c_names):
-            if c_name in hpath:
-                c_P.append(c_scores[idx])
-            else:
-                c_N.append(c_scores[idx])
-
-        # Hacky way to make sure equal positives and negatives
-        c_P = [c_P[0] for _ in range(len(c_N))]
-
-        P.append(c_P)
-        N.append(c_N)
-        idxs.append(c_idxs)
-        names.append(c_names)
-
-    return P, N, idxs, names
-
-
-def get_pval(scores, experimental_sets, hpath, score_layer, score_type):
-    """
-    TODO: This is my pval code from ./code/imagenet.
-          Simplify for COMPAS.
-    """
-    P, N, _, names = assemble_scores(scores, experimental_sets,
-                                     score_layer, score_type)
-
-    per_level_pvals = {}
-
-    for set_p, set_n, set_names in zip(P, N, names):
-        level = set(set_names).intersection(hpath).pop()
-        # print(level, set_p, set_n)
-        per_level_pvals[level] = ttest_ind(set_p, set_n)[1]
-
-    return per_level_pvals
-
-
-
-
-def short_form_explanation():
-    """
-    TODO: This is Kenneth's XAI from ./code/imagenet.
-          Adapt to COMPAS.
-    """
-
-    per_level_pvals = get_pval(scores, experimental_sets, child_path,
-                               score_layer=self.layer, score_type="magnitude")
-
-    for level, concepts_set in zip(levels, experimental_sets):
-        score_list = scores["-".join([str(c.id) for c
-                            in concepts_set])][self.layer]['magnitude']
-        level_explain = dict()
-        level_explain['level_name'] = level
-        level_explain['children'] = [(concept.name, score) for score, concept
-                                     in zip(score_list, concepts_set)]
-
-        if level in per_level_pvals:
-            level_explain['pval'] = per_level_pvals[level]
-
-        explanations.append(level_explain)
-
-    return explanations
-
-def long_form_explanations(self, explanations, pred_class_name):
-    """
-    TODO: This is Kenneth's XAI from ./code/imagenet.
-          Adapt to COMPAS.
-    """
-    outStr = []
-
-    prevClass = pred_class_name
-
-    outStr.append(f"The input is predicted to be a(n) {prevClass} (p-value: {explanations[-1]['pval']:.4f}).\n")
-    for explanation in explanations[::-1]:
-        outStr.append(f"It is predicted to be a(n) {prevClass} because it is a {explanation['level_name']}" + ("" if 'pval' not in explanation else f" (p-value: {explanation['pval']:.4f})") + ".\n"
-                      f"It is a(n) {prevClass} because out of all {explanation['level_name']}s, {prevClass} has the highest TCAV scores among possible sub-classes: \n")
-        outStr.append("Class Name \t\t Score\n")
-        for concept_name, concept_score in explanation['children']:
-            outStr.append(f"{concept_name} \t\t {concept_score}\n")
-        outStr.append("\n")
-
-        prevClass = explanation['level_name']
-
-    return "".join(outStr)
 
 
