@@ -1,3 +1,5 @@
+import ipdb
+
 # ..........torch imports............
 from pathlib import Path
 
@@ -31,8 +33,8 @@ h = Hierarchy(json_path=HIERARCHY_JSON_PATH, wordnet_labels_path=HIERARCHY_WORDN
 # Let's assemble concepts into Concept instances using Concept class and concept images stored in `concepts_path`.
 ###################################################
 
-# concepts_path = "/home/devvrit/ishann/data/captum/tcav/concepts"
-concepts_path = "../data"
+concepts_path = "/home/devvrit/ishann/data/captum/tcav/concepts"
+#concepts_path = "../data"
 
 # Assemble non-random concepts
 concepts = assemble_all_concepts_from_hierarchy(h=h, num_images=100, concepts_path=concepts_path,
