@@ -1,0 +1,25 @@
+The input is predicted to be a(n) pay-phone (p-value: 0.0037).
+It is predicted to be a(n) pay-phone because it is a electronics.
+It is a(n) pay-phone because out of all electronicss, pay-phone has the highest score among sub-classes:  (p-value: 0.0037)
+Class Name 		 Score
+oscilloscope 		 0.0258
+computer keyboard 		 -0.1767
+pay-phone 		 1.1730
+random_2 		 -0.7867
+
+It is predicted to be a(n) electronics because it is a equipment.
+It is a(n) electronics because out of all equipments, electronics has the highest score among sub-classes:  (p-value: 0.0042)
+Class Name 		 Score
+ball 		 -0.1199
+puzzle 		 -0.0118
+electronics 		 0.8357
+random_1 		 -0.6123
+
+It is predicted to be a(n) equipment because it is a entity.
+It is a(n) equipment because out of all entitys, equipment has the highest score among sub-classes:  (p-value: 0.0068)
+Class Name 		 Score
+equipment 		 0.4781
+geological formation 		 -0.1547
+organism 		 0.0487
+random_0 		 -0.3832
+

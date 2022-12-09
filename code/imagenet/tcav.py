@@ -11,6 +11,8 @@ from captum.concept._utils.common import concepts_to_str
 
 # .... Local imports..................
 from joblib import load, dump
+from torchvision.transforms import transforms
+from tqdm import tqdm
 
 from HierarchicalExplanation import HierarchicalExplanation
 from generate_data.hierarchy import Hierarchy
@@ -62,53 +64,33 @@ experiment_w_comparison = [[concepts['canine'], concepts['tabby'], concepts['puz
 tcav = TCAV(model=model, layers=layers, layer_attr_method=LayerIntegratedGradients(model, None, multiply_by_inputs=False))
 
 # Load sample images
-husky_images = load_image_tensors('Siberian husky', root_path=concepts_path, transform=False, count=100)
-husky_tensors = torch.stack([transform(img) for img in husky_images])
-husky_idx = h.imagenet_label2idx['Siberian husky']
-
-# valley_images = load_image_tensors('valley', root_path=concepts_path, transform=False, count=100)
-# valley_idx = h.imagenet_label2idx['valley']
+# husky_images = load_image_tensors('Siberian husky', root_path=concepts_path, transform=False, count=100)
+# husky_tensors = torch.stack([transform(img) for img in husky_images])
+# husky_idx = h.imagenet_label2idx['Siberian husky']
 #
-# tabby_images = load_image_tensors('tabby', root_path=concepts_path, transform=False, count=100)
-# tabby_idx = h.imagenet_label2idx['tabby']
-
-# print("Starting...")
-# if not Path("husky_tcav_w_random.pkl").is_file():
-#     husky_tcav_w_random = tcav.interpret(inputs=husky_tensors, experimental_sets=experiment_w_random, target=husky_idx, n_steps=5)
-#     print(husky_tcav_w_random)
-#     # dump(husky_tcav_w_random, "husky_tcav_w_random.pkl")
-# else:
-#     pass
-#     # husky_tcav_w_random = load("husky_tcav_w_random.pkl")
-
-# plot_tcav_scores(layers=layers, experimental_sets=experiment_w_random, tcav_scores=husky_tcav_w_random, outfile="husky_vs_rand.png")
-# plot_tcav_scores(layers=layers, experimental_sets=experiment_w_random, tcav_scores=husky_tcav_w_comparison, outfile="husky_vs_others.png"
-
-# # p-val
-# experimental_sets = [[concepts['canine'], random_concepts[0]], [concepts['canine'], random_concepts[1]],
-#                      [random_concepts[0], random_concepts[1]], [random_concepts[0], random_concepts[2]]]
 #
-# print("starting pval")
-# if not Path("scores.pkl").is_file():
-#     scores = tcav.interpret(inputs=husky_tensors, experimental_sets=experimental_sets, target=husky_idx, n_steps=5)
-#     # dump(scores, "scores.pkl")
-# else:
-#     pass
-#     # scores = load("scores.pkl")
-# print("scores")
-# print(scores)
-#
-# print("boxplots")
-# # show_boxplots(scores=scores, experimental_sets=experimental_sets, n=4, layer='inception5b', outfile="boxplot_inception5b.png")
-# show_boxplots(scores=scores, experimental_sets=experimental_sets, n=2, layer='fc', outfile="boxplot_fc.png")
+# he = HierarchicalExplanation(h=h, model=model, layer='fc', n_steps=5, load_save=False)
+# explanations = he.explain(input_tensors=husky_tensors, input_class_name="Siberian husky", input_idx=husky_idx, get_concepts_from_name=lambda x: concepts[x] if x in concepts else random_concepts[int(x.replace("random_", ""))])
+# print(explanations)
+# long_form = he.long_form_explanations(explanations, "Siberian husky")
+# print(long_form)
+
+# Generate explanations for all leaf nodes:
+Path('results_latex').mkdir(exist_ok=True, parents=True)
+
+for leaf_node_name in tqdm(h.get_leaf_nodes()):
+    leaf_images = load_image_tensors(leaf_node_name, root_path=concepts_path, transform=False, count=100)
+    leaf_tensors = torch.stack([transform(img) for img in leaf_images])
+    leaf_class_idx = h.imagenet_label2idx[leaf_node_name]
 
 
-he = HierarchicalExplanation(h=h, model=model, layer='fc', n_steps=5, load_save=True)
-explanations = he.explain(input_tensors=husky_tensors, input_class_name="Siberian husky", input_idx=husky_idx, get_concepts_from_name=lambda x: concepts[x] if x in concepts else random_concepts[int(x.replace("random_", ""))])
-print(explanations)
-long_form = he.long_form_explanations(explanations, "Siberian husky")
-print(long_form)
+    he = HierarchicalExplanation(h=h, model=model, layer='fc', n_steps=5, load_save=True, latex_output=True)
+    explanations = he.explain(input_tensors=leaf_tensors, input_class_name=leaf_node_name, input_idx=leaf_class_idx, get_concepts_from_name=lambda x: concepts[x] if x in concepts else random_concepts[int(x.replace("random_", ""))])
+    long_form = he.long_form_explanations(explanations, leaf_node_name)
+    print(long_form)
 
+    with open(f'results_latex/{leaf_node_name}_explanation.txt', 'w') as f:
+        f.write(long_form)
 
 
 

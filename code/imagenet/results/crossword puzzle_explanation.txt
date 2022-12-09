@@ -1,0 +1,24 @@
+The input is predicted to be a(n) crossword puzzle (p-value: 0.0494).
+It is predicted to be a(n) crossword puzzle because it is a puzzle.
+It is a(n) crossword puzzle because out of all puzzles, crossword puzzle has the highest score among sub-classes:  (p-value: 0.0494)
+Class Name 		 Score
+crossword puzzle 		 1.2786
+jigsaw puzzle 		 -0.2629
+random_2 		 -1.1879
+
+It is predicted to be a(n) puzzle because it is a equipment.
+It is a(n) puzzle because out of all equipments, puzzle has the highest score among sub-classes:  (p-value: 0.0048)
+Class Name 		 Score
+ball 		 -0.1713
+puzzle 		 1.0881
+electronics 		 0.0193
+random_1 		 -0.8049
+
+It is predicted to be a(n) equipment because it is a entity.
+It is a(n) equipment because out of all entitys, equipment has the highest score among sub-classes:  (p-value: 0.0404)
+Class Name 		 Score
+equipment 		 0.4858
+geological formation 		 -0.0154
+organism 		 0.1385
+random_0 		 -0.5575
+

@@ -1,0 +1,25 @@
+The input is predicted to be a(n) computer keyboard (p-value: 0.0139).
+It is predicted to be a(n) computer keyboard because it is a electronics.
+It is a(n) computer keyboard because out of all electronicss, computer keyboard has the highest score among sub-classes:  (p-value: 0.0139)
+Class Name 		 Score
+oscilloscope 		 -0.0572
+computer keyboard 		 0.8818
+pay-phone 		 0.0951
+random_2 		 -0.7814
+
+It is predicted to be a(n) electronics because it is a equipment.
+It is a(n) electronics because out of all equipments, electronics has the highest score among sub-classes:  (p-value: 0.0135)
+Class Name 		 Score
+ball 		 -0.0078
+puzzle 		 0.0514
+electronics 		 0.7722
+random_1 		 -0.6752
+
+It is predicted to be a(n) equipment because it is a entity.
+It is a(n) equipment because out of all entitys, equipment has the highest score among sub-classes:  (p-value: 0.0091)
+Class Name 		 Score
+equipment 		 0.5479
+geological formation 		 0.0184
+organism 		 -0.0315
+random_0 		 -0.4491
+

@@ -1,0 +1,25 @@
+The input is predicted to be a(n) golf ball (p-value: 0.0075).
+It is predicted to be a(n) golf ball because it is a ball.
+It is a(n) golf ball because out of all balls, golf ball has the highest score among sub-classes:  (p-value: 0.0075)
+Class Name 		 Score
+golf ball 		 1.0367
+basketball 		 -0.0861
+soccer ball 		 0.0820
+random_2 		 -0.7650
+
+It is predicted to be a(n) ball because it is a equipment.
+It is a(n) ball because out of all equipments, ball has the highest score among sub-classes:  (p-value: 0.0076)
+Class Name 		 Score
+ball 		 1.0450
+puzzle 		 -0.0073
+electronics 		 0.0272
+random_1 		 -0.7690
+
+It is predicted to be a(n) equipment because it is a entity.
+It is a(n) equipment because out of all entitys, equipment has the highest score among sub-classes:  (p-value: 0.0059)
+Class Name 		 Score
+equipment 		 0.5138
+geological formation 		 0.0076
+organism 		 0.0489
+random_0 		 -0.3045
+

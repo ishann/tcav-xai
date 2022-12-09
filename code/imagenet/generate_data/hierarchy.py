@@ -158,7 +158,9 @@ class Hierarchy:
 
 if __name__ == '__main__':
     h = Hierarchy()
-    print(h.get_leaf_nodes())
-    print(h.get_path("dog"))
-
-    print(h.get_children_names("dog"))
+    print(h.get_leaf_nodes(), len(h.get_leaf_nodes()))
+    print(len(h.get_all_nodes()))
+    print(len(h.get_leaf_nodes()))
+    # print(h.get_path("dog"))
+    #
+    # print(h.get_children_names("dog"))

@@ -1,0 +1,31 @@
+The input is predicted to be a(n) Siberian husky (p-value: 0.0004).
+It is predicted to be a(n) Siberian husky because it is a dog.
+It is a(n) Siberian husky because out of all dogs, Siberian husky has the highest score among sub-classes:  (p-value: 0.0004)
+Class Name 		 Score
+golden retriever 		 -0.0616
+dalmatian 		 -0.1182
+Siberian husky 		 0.5731
+random_3 		 -0.2777
+
+It is predicted to be a(n) dog because it is a canine.
+It is a(n) dog because out of all canines, dog has the highest score among sub-classes:  (p-value: 0.1241)
+Class Name 		 Score
+white wolf 		 0.1330
+dog 		 0.4865
+random_2 		 -0.3182
+
+It is predicted to be a(n) canine because it is a organism.
+It is a(n) canine because out of all organisms, canine has the highest score among sub-classes:  (p-value: 0.0526)
+Class Name 		 Score
+canine 		 0.8123
+feline 		 0.0281
+random_1 		 -0.4640
+
+It is predicted to be a(n) organism because it is a entity.
+It is a(n) organism because out of all entitys, organism has the highest score among sub-classes:  (p-value: 0.0044)
+Class Name 		 Score
+equipment 		 -0.0639
+geological formation 		 -0.0089
+organism 		 0.3964
+random_0 		 -0.3014
+

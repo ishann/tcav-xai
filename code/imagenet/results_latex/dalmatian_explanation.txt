@@ -1,0 +1,63 @@
+The input is predicted to be a(n) dalmatian (p-value: 0.0002).
+It is a(n) dalmatian because out of all dogs, dalmatian has the highest score among sub-classes:  (p-value: 0.0002)
+
+                \begin{table}[H]
+                \begin{tabular}{l|r}
+                \toprule
+                \textbf{Concept Name} & \textbf{CAV Score}\\
+                \midrule
+                golden retriever & -0.1245\\ 
+dalmatian & 0.9728\\ 
+Siberian husky & -0.1643\\ 
+random_3 & -0.4352\\ 
+
+                \bottomrule 
+                \end{tabular}
+                \end{table}
+                
+It is a(n) dog because out of all canines, dog has the highest score among sub-classes:  (p-value: 0.0462)
+
+                \begin{table}[H]
+                \begin{tabular}{l|r}
+                \toprule
+                \textbf{Concept Name} & \textbf{CAV Score}\\
+                \midrule
+                white wolf & -0.0829\\ 
+dog & 0.7622\\ 
+random_2 & -0.5673\\ 
+
+                \bottomrule 
+                \end{tabular}
+                \end{table}
+                
+It is a(n) canine because out of all organisms, canine has the highest score among sub-classes:  (p-value: 0.0589)
+
+                \begin{table}[H]
+                \begin{tabular}{l|r}
+                \toprule
+                \textbf{Concept Name} & \textbf{CAV Score}\\
+                \midrule
+                canine & 1.0861\\ 
+feline & -0.0822\\ 
+random_1 & -0.8781\\ 
+
+                \bottomrule 
+                \end{tabular}
+                \end{table}
+                
+It is a(n) organism because out of all entitys, organism has the highest score among sub-classes:  (p-value: 0.0038)
+
+                \begin{table}[H]
+                \begin{tabular}{l|r}
+                \toprule
+                \textbf{Concept Name} & \textbf{CAV Score}\\
+                \midrule
+                equipment & 0.0533\\ 
+geological formation & 0.0244\\ 
+organism & 0.7704\\ 
+random_0 & -0.3950\\ 
+
+                \bottomrule 
+                \end{tabular}
+                \end{table}
+                

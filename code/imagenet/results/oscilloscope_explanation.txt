@@ -1,0 +1,25 @@
+The input is predicted to be a(n) oscilloscope (p-value: 0.0115).
+It is predicted to be a(n) oscilloscope because it is a electronics.
+It is a(n) oscilloscope because out of all electronicss, oscilloscope has the highest score among sub-classes:  (p-value: 0.0115)
+Class Name 		 Score
+oscilloscope 		 0.8896
+computer keyboard 		 -0.1995
+pay-phone 		 0.0741
+random_2 		 -0.8538
+
+It is predicted to be a(n) electronics because it is a equipment.
+It is a(n) electronics because out of all equipments, electronics has the highest score among sub-classes:  (p-value: 0.0072)
+Class Name 		 Score
+ball 		 -0.1366
+puzzle 		 0.0549
+electronics 		 0.8518
+random_1 		 -0.6741
+
+It is predicted to be a(n) equipment because it is a entity.
+It is a(n) equipment because out of all entitys, equipment has the highest score among sub-classes:  (p-value: 0.0031)
+Class Name 		 Score
+equipment 		 0.5875
+geological formation 		 -0.0263
+organism 		 -0.1003
+random_0 		 -0.4179
+

@@ -1,0 +1,31 @@
+The input is predicted to be a(n) golden retriever (p-value: 0.0006).
+It is predicted to be a(n) golden retriever because it is a dog.
+It is a(n) golden retriever because out of all dogs, golden retriever has the highest score among sub-classes:  (p-value: 0.0006)
+Class Name 		 Score
+golden retriever 		 0.5389
+dalmatian 		 -0.0299
+Siberian husky 		 0.0194
+random_3 		 -0.1876
+
+It is predicted to be a(n) dog because it is a canine.
+It is a(n) dog because out of all canines, dog has the highest score among sub-classes:  (p-value: 0.1960)
+Class Name 		 Score
+white wolf 		 0.1737
+dog 		 0.4201
+random_2 		 -0.3667
+
+It is predicted to be a(n) canine because it is a organism.
+It is a(n) canine because out of all organisms, canine has the highest score among sub-classes:  (p-value: 0.1208)
+Class Name 		 Score
+canine 		 0.6091
+feline 		 0.0909
+random_1 		 -0.5528
+
+It is predicted to be a(n) organism because it is a entity.
+It is a(n) organism because out of all entitys, organism has the highest score among sub-classes:  (p-value: 0.0015)
+Class Name 		 Score
+equipment 		 -0.0169
+geological formation 		 -0.0031
+organism 		 0.4560
+random_0 		 -0.2170
+

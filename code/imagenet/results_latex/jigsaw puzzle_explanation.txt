@@ -1,0 +1,48 @@
+The input is predicted to be a(n) jigsaw puzzle (p-value: 0.0711).
+It is a(n) jigsaw puzzle because out of all puzzles, jigsaw puzzle has the highest score among sub-classes:  (p-value: 0.0711)
+
+                \begin{table}[H]
+                \begin{tabular}{l|r}
+                \toprule
+                \textbf{Concept Name} & \textbf{CAV Score}\\
+                \midrule
+                crossword puzzle & 0.0105\\ 
+jigsaw puzzle & 1.8268\\ 
+random_2 & -1.4154\\ 
+
+                \bottomrule 
+                \end{tabular}
+                \end{table}
+                
+It is a(n) puzzle because out of all equipments, puzzle has the highest score among sub-classes:  (p-value: 0.0040)
+
+                \begin{table}[H]
+                \begin{tabular}{l|r}
+                \toprule
+                \textbf{Concept Name} & \textbf{CAV Score}\\
+                \midrule
+                ball & -0.0368\\ 
+puzzle & 1.3811\\ 
+electronics & -0.2167\\ 
+random_1 & -1.0275\\ 
+
+                \bottomrule 
+                \end{tabular}
+                \end{table}
+                
+It is a(n) equipment because out of all entitys, equipment has the highest score among sub-classes:  (p-value: 0.0062)
+
+                \begin{table}[H]
+                \begin{tabular}{l|r}
+                \toprule
+                \textbf{Concept Name} & \textbf{CAV Score}\\
+                \midrule
+                equipment & 0.5799\\ 
+geological formation & 0.1001\\ 
+organism & -0.0104\\ 
+random_0 & -0.3157\\ 
+
+                \bottomrule 
+                \end{tabular}
+                \end{table}
+                

@@ -1,0 +1,47 @@
+The input is predicted to be a(n) tabby (p-value: 0.0975).
+It is a(n) tabby because out of all felines, tabby has the highest score among sub-classes:  (p-value: 0.0975)
+
+                \begin{table}[H]
+                \begin{tabular}{l|r}
+                \toprule
+                \textbf{Concept Name} & \textbf{CAV Score}\\
+                \midrule
+                tabby & 0.7156\\ 
+tiger & 0.1100\\ 
+random_2 & -0.5067\\ 
+
+                \bottomrule 
+                \end{tabular}
+                \end{table}
+                
+It is a(n) feline because out of all organisms, feline has the highest score among sub-classes:  (p-value: 0.0249)
+
+                \begin{table}[H]
+                \begin{tabular}{l|r}
+                \toprule
+                \textbf{Concept Name} & \textbf{CAV Score}\\
+                \midrule
+                canine & -0.1766\\ 
+feline & 0.6448\\ 
+random_1 & -0.4914\\ 
+
+                \bottomrule 
+                \end{tabular}
+                \end{table}
+                
+It is a(n) organism because out of all entitys, organism has the highest score among sub-classes:  (p-value: 0.0000)
+
+                \begin{table}[H]
+                \begin{tabular}{l|r}
+                \toprule
+                \textbf{Concept Name} & \textbf{CAV Score}\\
+                \midrule
+                equipment & -0.1465\\ 
+geological formation & -0.0946\\ 
+organism & 0.5109\\ 
+random_0 & -0.1976\\ 
+
+                \bottomrule 
+                \end{tabular}
+                \end{table}
+                

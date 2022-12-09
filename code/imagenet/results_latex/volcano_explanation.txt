@@ -1,0 +1,32 @@
+The input is predicted to be a(n) volcano (p-value: 0.0270).
+It is a(n) volcano because out of all geological formations, volcano has the highest score among sub-classes:  (p-value: 0.0270)
+
+                \begin{table}[H]
+                \begin{tabular}{l|r}
+                \toprule
+                \textbf{Concept Name} & \textbf{CAV Score}\\
+                \midrule
+                valley & -0.0473\\ 
+volcano & 0.8725\\ 
+random_1 & -0.4181\\ 
+
+                \bottomrule 
+                \end{tabular}
+                \end{table}
+                
+It is a(n) geological formation because out of all entitys, geological formation has the highest score among sub-classes:  (p-value: 0.0009)
+
+                \begin{table}[H]
+                \begin{tabular}{l|r}
+                \toprule
+                \textbf{Concept Name} & \textbf{CAV Score}\\
+                \midrule
+                equipment & -0.1484\\ 
+geological formation & 0.7627\\ 
+organism & -0.2419\\ 
+random_0 & -0.5496\\ 
+
+                \bottomrule 
+                \end{tabular}
+                \end{table}
+                

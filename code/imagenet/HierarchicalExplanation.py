@@ -27,13 +27,14 @@ h = Hierarchy(json_path=HIERARCHY_JSON_PATH, wordnet_labels_path=HIERARCHY_WORDN
               imagenet_idx_labels_path=IMAGENET_IDX_TO_LABELS)
 
 class HierarchicalExplanation:
-    def __init__(self, h: Hierarchy, model: nn.Module, layer: str, n_steps=5, load_save=False):
+    def __init__(self, h: Hierarchy, model: nn.Module, layer: str, n_steps=5, load_save=False, latex_output=False):
         self.h = h
         self.model = model
         self.layer = layer
         self.n_steps = n_steps
         self.load_save = load_save
         self.tcav = TCAV(model=model, layers=[layer], layer_attr_method=LayerIntegratedGradients(self.model, None, multiply_by_inputs=False))
+        self.latex_output = latex_output
 
 
     def explain(self, input_tensors, input_idx, input_class_name, get_concepts_from_name):
@@ -50,11 +51,12 @@ class HierarchicalExplanation:
             experiments.append(get_concepts_from_name(f'random_{idx}'))
             experimental_sets.append(experiments)
 
-        if not Path('scores.pkl').is_file() or not self.load_save:
+        save_name = f"{input_class_name}_scores.pkl"
+        if not Path(save_name).is_file() or not self.load_save:
             scores = self.tcav.interpret(inputs=input_tensors, experimental_sets=experimental_sets, target=input_idx, n_steps=self.n_steps)
-            dump(dict(scores), 'scores.pkl')
+            dump(dict(scores), save_name)
         else:
-            scores = load('scores.pkl')
+            scores = load(save_name)
 
         per_level_pvals = get_pval(scores, experimental_sets, child_path, score_layer=self.layer, score_type="magnitude")
 
@@ -64,8 +66,8 @@ class HierarchicalExplanation:
             level_explain['level_name'] = level
             level_explain['children'] = [(concept.name, score) for score, concept in zip(score_list, concepts_set)]
 
-            if level in per_level_pvals:
-                level_explain['pval'] = per_level_pvals[level]
+            pval_key = list(set([concept.name for concept in concepts_set]).intersection(per_level_pvals.keys()))[0]
+            level_explain['pval'] = per_level_pvals[pval_key]
 
             explanations.append(level_explain)
 
@@ -78,11 +80,28 @@ class HierarchicalExplanation:
 
         outStr.append(f"The input is predicted to be a(n) {prevClass} (p-value: {explanations[-1]['pval']:.4f}).\n")
         for explanation in explanations[::-1]:
-            outStr.append(f"It is predicted to be a(n) {prevClass} because it is a {explanation['level_name']}" + ("" if 'pval' not in explanation else f" (p-value: {explanation['pval']:.4f})") + ".\n"
-                          f"It is a(n) {prevClass} because out of all {explanation['level_name']}s, {prevClass} has the highest TCAV scores among possible sub-classes: \n")
-            outStr.append("Class Name \t\t Score\n")
-            for concept_name, concept_score in explanation['children']:
-                outStr.append(f"{concept_name} \t\t {concept_score}\n")
+            outStr.append(f"It is a(n) {prevClass} because out of all {explanation['level_name']}s, {prevClass} has the highest score among sub-classes: " + ("" if 'pval' not in explanation else f" (p-value: {explanation['pval']:.4f})") + "\n")
+
+            if self.latex_output:
+                outStr.append("""
+                \\begin{table}[H]
+                \\begin{tabular}{l|r}
+                \\toprule
+                \\textbf{Concept Name} & \\textbf{CAV Score}\\\\
+                \\midrule
+                """)
+                for concept_name, concept_score in explanation['children']:
+                    outStr.append(f"{concept_name} & {concept_score:.4f}\\\\ \n")
+
+                outStr.append("""
+                \\bottomrule 
+                \\end{tabular}
+                \\end{table}
+                """)
+            else:
+                outStr.append("Class Name \t\t Score\n")
+                for concept_name, concept_score in explanation['children']:
+                    outStr.append(f"{concept_name} \t\t {concept_score:.4f}\n")
             outStr.append("\n")
 
             prevClass = explanation['level_name']
