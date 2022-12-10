@@ -7,7 +7,7 @@
 
 ### Running Experiments
 - To run experiments with the ImageNet dataset, run `code/imagenet/tcav.py` or `code/imagenet/experiments_in_correctness.ipynb`
-- To run experiments with the COMPAS dataset, run `<ADD HERE>`
+- To run experiments with the COMPAS dataset, run `code/compas/main.py` or `code/compas/main_unaware.py`
 
 ## Important Files
 
@@ -25,12 +25,15 @@ imagenet/
 ### COMPAS
 ```
 compas/
-├───<REPLACE>                   # <REPLACE>
-├───<REPLACE>                   # <REPLACE>
-├───<REPLACE>                   # <REPLACE>
-├───<REPLACE>                   # <REPLACE>
-├───<REPLACE>                   # <REPLACE>
-└───<REPLACE>                   # <REPLACE>
+├── generate_concepts.py            # Generates concepts from the validation data
+├── nets_and_datasets.py            # Classes for defining NeuralNetwork and COMPAS Dataset classes and pre-processing functions
+├── train.py                        # Training script for vanilla neural network
+├── train_unaware.py                # Training script for attribute-unaware neural network
+├── main.py                         # TCAV script for vanilla neural network
+├── main_unaware.py                 # TCAV script for unaware neural network
+├── assess_nnet.py                  # Exploratory script for generating statistics on trained neural network
+├── utils.py                        # Utilities for driving both TCAV scripts
+└── xai.py                          # Explanations for both TCAV scripts.
 ```
 
 ### Related Work:
