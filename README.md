@@ -25,12 +25,12 @@ imagenet/
 ### COMPAS
 ```
 compas/
-├───<REPLACE>                    # <REPLACE>
-├───cifar_noniid_exp             # Data on experiments using nonIID datasets among devices
-├───cifar_num_share_exp          # Data on experiments using cifar10 with num_share_devices as the variable
-├───cifar_strat_compare          # Data on experiments testing random vs distance based communication strategy
-├───figures                      # Directory containing generated graphs and charts
-└───mnist_num_share_exp          # Data on experiments using mnist with num_share_devices as the variable
+├───<REPLACE>                   # <REPLACE>
+├───<REPLACE>                   # <REPLACE>
+├───<REPLACE>                   # <REPLACE>
+├───<REPLACE>                   # <REPLACE>
+├───<REPLACE>                   # <REPLACE>
+└───<REPLACE>                   # <REPLACE>
 ```
 
 ### Related Work:

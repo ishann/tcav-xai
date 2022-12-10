@@ -1,0 +1,14 @@
+captum==0.5.0
+ipdb==0.13.9
+joblib==1.2.0
+matplotlib==3.5.1
+numpy==1.23.3
+opencv_python==4.5.4.60
+pandas==1.4.1
+Pillow==9.3.0
+requests==2.26.0
+scipy==1.7.3
+tensorflow==2.11.0
+torch==1.13.0+cu117
+torchvision==0.14.0+cu117
+tqdm==4.62.3
