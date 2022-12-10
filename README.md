@@ -32,3 +32,6 @@ compas/
 ├───figures                      # Directory containing generated graphs and charts
 └───mnist_num_share_exp          # Data on experiments using mnist with num_share_devices as the variable
 ```
+
+### Related Work:
+The code used to generate CAVs is based on a tutorial from the PyTorch captum repo available at: https://github.com/pytorch/captum/blob/master/tutorials/TCAV_Image.ipynb
