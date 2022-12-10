@@ -75,12 +75,14 @@ class HierarchicalExplanation:
 
     def long_form_explanations(self, explanations, pred_class_name):
         outStr = []
+        path_pvals = []
 
         prevClass = pred_class_name
 
         outStr.append(f"The input is predicted to be a(n) {prevClass} (p-value: {explanations[-1]['pval']:.4f}).\n")
+
         for explanation in explanations[::-1]:
-            outStr.append(f"It is a(n) {prevClass} because out of all {explanation['level_name']}s, {prevClass} has the highest score among sub-classes: " + ("" if 'pval' not in explanation else f" (p-value: {explanation['pval']:.4f})") + "\n")
+            outStr.append(f"It is a(n) {prevClass} because out of all {explanation['level_name']}s, {prevClass} has the highest score among sub-classes: " + ("" if 'pval' not in explanation else f" (p-value: {explanation['pval']:.5f})") + "\n")
 
             if self.latex_output:
                 outStr.append("""
@@ -91,7 +93,7 @@ class HierarchicalExplanation:
                 \\midrule
                 """)
                 for concept_name, concept_score in explanation['children']:
-                    outStr.append(f"{concept_name} & {concept_score:.4f}\\\\ \n")
+                    outStr.append(f"{concept_name} & {concept_score:.5f}\\\\ \n")
 
                 outStr.append("""
                 \\bottomrule 
@@ -101,9 +103,17 @@ class HierarchicalExplanation:
             else:
                 outStr.append("Class Name \t\t Score\n")
                 for concept_name, concept_score in explanation['children']:
-                    outStr.append(f"{concept_name} \t\t {concept_score:.4f}\n")
+                    outStr.append(f"{concept_name} \t\t {concept_score:.5f}\n")
             outStr.append("\n")
 
             prevClass = explanation['level_name']
+
+        if self.latex_output:
+            pval = None
+            for explanation in explanations:
+                path_pvals.append(explanation['level_name'] + ("" if not pval else f" ({pval:.5f})"))
+                pval = explanation['pval'] if 'pval' in explanation else None
+            path_pvals.append(pred_class_name + ("" if not pval else f" ({pval:.5f})"))
+            print(pred_class_name, " & "," $\\rightarrow$ ".join(path_pvals), "\\\\")
 
         return "".join(outStr)

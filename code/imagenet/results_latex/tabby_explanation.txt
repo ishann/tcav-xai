@@ -1,45 +1,45 @@
 The input is predicted to be a(n) tabby (p-value: 0.0975).
-It is a(n) tabby because out of all felines, tabby has the highest score among sub-classes:  (p-value: 0.0975)
+It is a(n) tabby because out of all felines, tabby has the highest score among sub-classes:  (p-value: 0.09746)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                tabby & 0.7156\\ 
-tiger & 0.1100\\ 
-random_2 & -0.5067\\ 
+                tabby & 0.71564\\ 
+tiger & 0.10998\\ 
+random_2 & -0.50672\\ 
 
                 \bottomrule 
                 \end{tabular}
                 \end{table}
                 
-It is a(n) feline because out of all organisms, feline has the highest score among sub-classes:  (p-value: 0.0249)
+It is a(n) feline because out of all organisms, feline has the highest score among sub-classes:  (p-value: 0.02491)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                canine & -0.1766\\ 
-feline & 0.6448\\ 
-random_1 & -0.4914\\ 
+                canine & -0.17656\\ 
+feline & 0.64477\\ 
+random_1 & -0.49145\\ 
 
                 \bottomrule 
                 \end{tabular}
                 \end{table}
                 
-It is a(n) organism because out of all entitys, organism has the highest score among sub-classes:  (p-value: 0.0000)
+It is a(n) organism because out of all entitys, organism has the highest score among sub-classes:  (p-value: 0.00002)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                equipment & -0.1465\\ 
-geological formation & -0.0946\\ 
-organism & 0.5109\\ 
-random_0 & -0.1976\\ 
+                equipment & -0.14654\\ 
+geological formation & -0.09458\\ 
+organism & 0.51087\\ 
+random_0 & -0.19756\\ 
 
                 \bottomrule 
                 \end{tabular}

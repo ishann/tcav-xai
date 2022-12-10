@@ -1,45 +1,45 @@
 The input is predicted to be a(n) white wolf (p-value: 0.0480).
-It is a(n) white wolf because out of all canines, white wolf has the highest score among sub-classes:  (p-value: 0.0480)
+It is a(n) white wolf because out of all canines, white wolf has the highest score among sub-classes:  (p-value: 0.04802)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                white wolf & 0.7315\\ 
-dog & -0.0986\\ 
-random_2 & -0.5872\\ 
+                white wolf & 0.73147\\ 
+dog & -0.09858\\ 
+random_2 & -0.58720\\ 
 
                 \bottomrule 
                 \end{tabular}
                 \end{table}
                 
-It is a(n) canine because out of all organisms, canine has the highest score among sub-classes:  (p-value: 0.0319)
+It is a(n) canine because out of all organisms, canine has the highest score among sub-classes:  (p-value: 0.03194)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                canine & 0.7400\\ 
-feline & -0.1742\\ 
-random_1 & -0.5842\\ 
+                canine & 0.73996\\ 
+feline & -0.17423\\ 
+random_1 & -0.58415\\ 
 
                 \bottomrule 
                 \end{tabular}
                 \end{table}
                 
-It is a(n) organism because out of all entitys, organism has the highest score among sub-classes:  (p-value: 0.0220)
+It is a(n) organism because out of all entitys, organism has the highest score among sub-classes:  (p-value: 0.02203)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                equipment & 0.0238\\ 
-geological formation & 0.0426\\ 
-organism & 0.4187\\ 
-random_0 & -0.4050\\ 
+                equipment & 0.02379\\ 
+geological formation & 0.04260\\ 
+organism & 0.41869\\ 
+random_0 & -0.40504\\ 
 
                 \bottomrule 
                 \end{tabular}

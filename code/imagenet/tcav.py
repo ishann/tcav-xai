@@ -1,5 +1,3 @@
-import ipdb
-
 # ..........torch imports............
 from pathlib import Path
 
@@ -33,8 +31,8 @@ h = Hierarchy(json_path=HIERARCHY_JSON_PATH, wordnet_labels_path=HIERARCHY_WORDN
 # Let's assemble concepts into Concept instances using Concept class and concept images stored in `concepts_path`.
 ###################################################
 
-concepts_path = "/home/devvrit/ishann/data/captum/tcav/concepts"
-#concepts_path = "../data"
+# concepts_path = "/home/devvrit/ishann/data/captum/tcav/concepts"
+concepts_path = "../data"
 
 # Assemble non-random concepts
 concepts = assemble_all_concepts_from_hierarchy(h=h, num_images=100, concepts_path=concepts_path,
@@ -80,7 +78,7 @@ tcav = TCAV(model=model, layers=layers, layer_attr_method=LayerIntegratedGradien
 # Generate explanations for all leaf nodes:
 Path('results_latex').mkdir(exist_ok=True, parents=True)
 
-for leaf_node_name in tqdm(h.get_leaf_nodes()):
+for leaf_node_name in h.get_leaf_nodes():
     leaf_images = load_image_tensors(leaf_node_name, root_path=concepts_path, transform=False, count=100)
     leaf_tensors = torch.stack([transform(img) for img in leaf_images])
     leaf_class_idx = h.imagenet_label2idx[leaf_node_name]
@@ -89,7 +87,6 @@ for leaf_node_name in tqdm(h.get_leaf_nodes()):
     he = HierarchicalExplanation(h=h, model=model, layer='fc', n_steps=5, load_save=True, latex_output=True)
     explanations = he.explain(input_tensors=leaf_tensors, input_class_name=leaf_node_name, input_idx=leaf_class_idx, get_concepts_from_name=lambda x: concepts[x] if x in concepts else random_concepts[int(x.replace("random_", ""))])
     long_form = he.long_form_explanations(explanations, leaf_node_name)
-    print(long_form)
 
     with open(f'results_latex/{leaf_node_name}_explanation.txt', 'w') as f:
         f.write(long_form)

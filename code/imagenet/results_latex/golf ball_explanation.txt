@@ -1,47 +1,47 @@
 The input is predicted to be a(n) golf ball (p-value: 0.0075).
-It is a(n) golf ball because out of all balls, golf ball has the highest score among sub-classes:  (p-value: 0.0075)
+It is a(n) golf ball because out of all balls, golf ball has the highest score among sub-classes:  (p-value: 0.00752)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                golf ball & 1.0367\\ 
-basketball & -0.0861\\ 
-soccer ball & 0.0820\\ 
-random_2 & -0.7650\\ 
+                golf ball & 1.03668\\ 
+basketball & -0.08607\\ 
+soccer ball & 0.08199\\ 
+random_2 & -0.76501\\ 
 
                 \bottomrule 
                 \end{tabular}
                 \end{table}
                 
-It is a(n) ball because out of all equipments, ball has the highest score among sub-classes:  (p-value: 0.0076)
+It is a(n) ball because out of all equipments, ball has the highest score among sub-classes:  (p-value: 0.00758)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                ball & 1.0450\\ 
-puzzle & -0.0073\\ 
-electronics & 0.0272\\ 
-random_1 & -0.7690\\ 
+                ball & 1.04495\\ 
+puzzle & -0.00733\\ 
+electronics & 0.02723\\ 
+random_1 & -0.76897\\ 
 
                 \bottomrule 
                 \end{tabular}
                 \end{table}
                 
-It is a(n) equipment because out of all entitys, equipment has the highest score among sub-classes:  (p-value: 0.0059)
+It is a(n) equipment because out of all entitys, equipment has the highest score among sub-classes:  (p-value: 0.00590)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                equipment & 0.5138\\ 
-geological formation & 0.0076\\ 
-organism & 0.0489\\ 
-random_0 & -0.3045\\ 
+                equipment & 0.51376\\ 
+geological formation & 0.00756\\ 
+organism & 0.04889\\ 
+random_0 & -0.30453\\ 
 
                 \bottomrule 
                 \end{tabular}

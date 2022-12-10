@@ -1,47 +1,47 @@
 The input is predicted to be a(n) pay-phone (p-value: 0.0037).
-It is a(n) pay-phone because out of all electronicss, pay-phone has the highest score among sub-classes:  (p-value: 0.0037)
+It is a(n) pay-phone because out of all electronicss, pay-phone has the highest score among sub-classes:  (p-value: 0.00369)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                oscilloscope & 0.0258\\ 
-computer keyboard & -0.1767\\ 
-pay-phone & 1.1730\\ 
-random_2 & -0.7867\\ 
+                oscilloscope & 0.02584\\ 
+computer keyboard & -0.17667\\ 
+pay-phone & 1.17300\\ 
+random_2 & -0.78665\\ 
 
                 \bottomrule 
                 \end{tabular}
                 \end{table}
                 
-It is a(n) electronics because out of all equipments, electronics has the highest score among sub-classes:  (p-value: 0.0042)
+It is a(n) electronics because out of all equipments, electronics has the highest score among sub-classes:  (p-value: 0.00422)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                ball & -0.1199\\ 
-puzzle & -0.0118\\ 
-electronics & 0.8357\\ 
-random_1 & -0.6123\\ 
+                ball & -0.11988\\ 
+puzzle & -0.01176\\ 
+electronics & 0.83566\\ 
+random_1 & -0.61226\\ 
 
                 \bottomrule 
                 \end{tabular}
                 \end{table}
                 
-It is a(n) equipment because out of all entitys, equipment has the highest score among sub-classes:  (p-value: 0.0068)
+It is a(n) equipment because out of all entitys, equipment has the highest score among sub-classes:  (p-value: 0.00679)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                equipment & 0.4781\\ 
-geological formation & -0.1547\\ 
-organism & 0.0487\\ 
-random_0 & -0.3832\\ 
+                equipment & 0.47814\\ 
+geological formation & -0.15473\\ 
+organism & 0.04872\\ 
+random_0 & -0.38324\\ 
 
                 \bottomrule 
                 \end{tabular}

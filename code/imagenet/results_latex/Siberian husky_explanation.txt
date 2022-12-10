@@ -1,61 +1,61 @@
 The input is predicted to be a(n) Siberian husky (p-value: 0.0004).
-It is a(n) Siberian husky because out of all dogs, Siberian husky has the highest score among sub-classes:  (p-value: 0.0004)
+It is a(n) Siberian husky because out of all dogs, Siberian husky has the highest score among sub-classes:  (p-value: 0.00036)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                golden retriever & -0.0616\\ 
-dalmatian & -0.1182\\ 
-Siberian husky & 0.5731\\ 
-random_3 & -0.2777\\ 
+                golden retriever & -0.06155\\ 
+dalmatian & -0.11824\\ 
+Siberian husky & 0.57314\\ 
+random_3 & -0.27772\\ 
 
                 \bottomrule 
                 \end{tabular}
                 \end{table}
                 
-It is a(n) dog because out of all canines, dog has the highest score among sub-classes:  (p-value: 0.1241)
+It is a(n) dog because out of all canines, dog has the highest score among sub-classes:  (p-value: 0.12415)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                white wolf & 0.1330\\ 
-dog & 0.4865\\ 
-random_2 & -0.3182\\ 
+                white wolf & 0.13301\\ 
+dog & 0.48648\\ 
+random_2 & -0.31822\\ 
 
                 \bottomrule 
                 \end{tabular}
                 \end{table}
                 
-It is a(n) canine because out of all organisms, canine has the highest score among sub-classes:  (p-value: 0.0526)
+It is a(n) canine because out of all organisms, canine has the highest score among sub-classes:  (p-value: 0.05258)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                canine & 0.8123\\ 
-feline & 0.0281\\ 
-random_1 & -0.4640\\ 
+                canine & 0.81234\\ 
+feline & 0.02809\\ 
+random_1 & -0.46405\\ 
 
                 \bottomrule 
                 \end{tabular}
                 \end{table}
                 
-It is a(n) organism because out of all entitys, organism has the highest score among sub-classes:  (p-value: 0.0044)
+It is a(n) organism because out of all entitys, organism has the highest score among sub-classes:  (p-value: 0.00438)
 
                 \begin{table}[H]
                 \begin{tabular}{l|r}
                 \toprule
                 \textbf{Concept Name} & \textbf{CAV Score}\\
                 \midrule
-                equipment & -0.0639\\ 
-geological formation & -0.0089\\ 
-organism & 0.3964\\ 
-random_0 & -0.3014\\ 
+                equipment & -0.06386\\ 
+geological formation & -0.00890\\ 
+organism & 0.39639\\ 
+random_0 & -0.30139\\ 
 
                 \bottomrule 
                 \end{tabular}
